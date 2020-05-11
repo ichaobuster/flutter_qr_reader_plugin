@@ -72,7 +72,7 @@ class MyAppState extends State<MyApp> {
         });
       }
     } catch (e) {
-      log('Error invokeMethod "scanYUVImage"');
+      print('Error invokeMethod "scanYUVImage"');
     }
     _processingStream = false;
   }
@@ -98,7 +98,7 @@ class MyAppState extends State<MyApp> {
         }
       }
     } catch (e) {
-      log('Pickup Image Error');
+      print('Pickup Image Error');
     }finally{
       setState(() {
         _processingImagePickup = false;
