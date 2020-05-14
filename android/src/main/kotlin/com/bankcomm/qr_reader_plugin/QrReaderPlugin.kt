@@ -3,12 +3,9 @@ package com.bankcomm.qr_reader_plugin
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.hardware.camera2.CameraAccessException
-import android.hardware.camera2.CameraManager
 import android.os.Handler
 import android.os.Looper
 import android.text.TextUtils
-import android.util.Log
 import androidx.annotation.NonNull
 import com.google.zxing.BinaryBitmap
 import com.google.zxing.PlanarYUVLuminanceSource
@@ -53,8 +50,6 @@ public class QrReaderPlugin : FlutterPlugin, MethodCallHandler {
     companion object {
         var applicationContext: Context? = null
         var reader: QRCodeMultiReader? = null
-        var cameraManager: CameraManager? = null
-        var cameraId: String? = null
 
         @JvmStatic
         fun registerWith(registrar: Registrar) {
@@ -136,26 +131,6 @@ public class QrReaderPlugin : FlutterPlugin, MethodCallHandler {
                     }
                 }
             }
-            "toggleFlashlight" -> {
-                try {
-                    val turnOn = call.argument<Boolean>("turnOn")
-                    if (turnOn == null) {
-                        result.error("NOT_NULL", "Parameter turnOn should not be null.", null)
-                        return
-                    }
-                    val flashCamManager = getCameraManagerInstance()
-                    val flashCamId: String? = getCameraId()
-                    if (flashCamManager == null || flashCamId == null) {
-                        result.success(false)
-                        return
-                    }
-                    flashCamManager.setTorchMode(flashCamId, turnOn)
-                    result.success(true)
-                } catch (e: CameraAccessException) {
-                    Log.e("FLASHLIGHT", e.message, e)
-                    result.success(false)
-                }
-            }
             else -> result.notImplemented()
         }
     }
@@ -165,30 +140,6 @@ public class QrReaderPlugin : FlutterPlugin, MethodCallHandler {
             reader = QRCodeMultiReader()
         }
         return reader!!
-    }
-
-    private fun getCameraManagerInstance(): CameraManager? {
-        if (cameraManager == null) {
-            if (applicationContext != null) {
-                cameraManager = applicationContext!!.getSystemService(Context.CAMERA_SERVICE) as CameraManager
-            }
-        }
-        return cameraManager
-    }
-
-    private fun getCameraId(): String? {
-        if (cameraId != null) {
-            return cameraId
-        }
-        val cameraManager = getCameraManagerInstance()
-        if (cameraManager == null) {
-            return null
-        }
-        if (cameraManager.getCameraIdList().size == 0) {
-            return null
-        }
-        cameraId = cameraManager.getCameraIdList()[0]
-        return cameraId
     }
 
     override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
