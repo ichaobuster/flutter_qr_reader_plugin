@@ -26,7 +26,7 @@ dependencies:
 
   # A Flutter plugin for getting information about and controlling the camera on Android and iOS.
   # Supports previewing the camera feed, capturing images, capturing video, and streaming image buffers to dart.
-  camera: ^0.5.7+4
+  camera: ^0.5.8+1
 
   # Flutter plugin for selecting images from the Android and iOS image library,
   # and taking new pictures with the camera.

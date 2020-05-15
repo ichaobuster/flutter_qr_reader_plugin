@@ -59,20 +59,22 @@ class MyAppState extends State<MyApp> {
     }
     _processingStream = true;
     try {
-      final result = await QrReaderPlugin.scanYUVImage(
+      final now = DateTime.now();
+      final result = await QrReaderPlugin.scanByCameraStream(
         bytesList: availableImage.planes.map((plane) {
           return plane.bytes;
         }).toList(),
         width: availableImage.width,
         height: availableImage.height,
       );
+      print(DateTime.now().millisecondsSinceEpoch - now.millisecondsSinceEpoch);
       if (result != null && result.isNotEmpty) {
         setState(() {
           _result = result;
         });
       }
     } catch (e) {
-      print('Error invokeMethod "scanYUVImage"');
+      print('Error invokeMethod "scanByCameraStream"');
     }
     _processingStream = false;
   }
@@ -130,22 +132,19 @@ class MyAppState extends State<MyApp> {
           future: _initializeControllerFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
-              if (_processingImagePickup){
-                return Stack(
-                  children: <Widget>[
-                    CameraPreview(_controller),
-                    Center(child: CircularProgressIndicator()),
-                  ],
-                );
-              }else{
-                return CameraPreview(_controller);
-              }
+              return Center(
+                child: AspectRatio(
+                  aspectRatio: _controller.value.aspectRatio,
+                  child: CameraPreview(_controller),
+                ),
+              );
             } else {
               // Otherwise, display a loading indicator.
               return Center(child: CircularProgressIndicator());
             }
           },
         ),
+        backgroundColor: Colors.black,
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.image),
           onPressed: () => _onPickupImageToScan(),
