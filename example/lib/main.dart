@@ -32,7 +32,6 @@ class CameraQRView extends StatefulWidget {
 }
 
 class CameraQRViewState extends State<CameraQRView> {
-  var _controllerInited = false;
   CameraController _controller;
   Future<void> _initializeControllerFuture;
   var _processingStream = false;
@@ -56,9 +55,6 @@ class CameraQRViewState extends State<CameraQRView> {
       if (!mounted) {
         return;
       }
-      setState(() {
-        _controllerInited = true;
-      });
       _controller.startImageStream(_onLatestImageAvailable);
     });
   }
@@ -90,7 +86,7 @@ class CameraQRViewState extends State<CameraQRView> {
   }
 
   _onPickupImageToScan() async {
-    if (_controller == null || !_controllerInited) {
+    if (_controller == null || !_controller.value.isInitialized) {
       return;
     }
     _controller.stopImageStream();

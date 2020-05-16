@@ -4,11 +4,8 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b2bd9a64-5868-45b1-a333-37000db8259b" name="Default Changelist" comment="去除闪光灯相关代码">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/src/main/kotlin/com/bankcomm/qr_reader_plugin/QrReaderPlugin.kt" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/kotlin/com/bankcomm/qr_reader_plugin/QrReaderPlugin.kt" afterDir="false" />
+    <list default="true" id="b2bd9a64-5868-45b1-a333-37000db8259b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qr_reader_plugin.iml" beforeDir="false" afterPath="$PROJECT_DIR$/qr_reader_plugin.iml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -71,7 +68,14 @@
       <option name="project" value="LOCAL" />
       <updated>1589570193307</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="优化Android扫描代码">
+      <created>1589594296266</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1589594296266</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -91,22 +95,7 @@
     <MESSAGE value="调整为使用print代替log" />
     <MESSAGE value="去除闪光灯相关代码" />
     <MESSAGE value="添加iOS端的二维码识别代码" />
-    <option name="LAST_COMMIT_MESSAGE" value="添加iOS端的二维码识别代码" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="Dart">
-          <url>file://$PROJECT_DIR$/example/lib/main.dart</url>
-          <line>138</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="Dart">
-          <url>file://$PROJECT_DIR$/example/lib/main.dart</url>
-          <line>20</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="优化Android扫描代码" />
+    <option name="LAST_COMMIT_MESSAGE" value="优化Android扫描代码" />
   </component>
 </project>
