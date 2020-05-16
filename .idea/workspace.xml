@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="b2bd9a64-5868-45b1-a333-37000db8259b" name="Default Changelist" comment="去除闪光灯相关代码">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/Podfile" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Podfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/Runner.xcworkspace/contents.xcworkspacedata" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Runner.xcworkspace/contents.xcworkspacedata" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/kotlin/com/bankcomm/qr_reader_plugin/QrReaderPlugin.kt" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/kotlin/com/bankcomm/qr_reader_plugin/QrReaderPlugin.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/SwiftQrReaderPlugin.swift" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/SwiftQrReaderPlugin.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/qr_reader_plugin.podspec" beforeDir="false" afterPath="$PROJECT_DIR$/ios/qr_reader_plugin.podspec" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/qr_reader_plugin.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/qr_reader_plugin.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qr_reader_plugin.iml" beforeDir="false" afterPath="$PROJECT_DIR$/qr_reader_plugin.iml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -67,7 +64,14 @@
       <option name="project" value="LOCAL" />
       <updated>1589427540626</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="添加iOS端的二维码识别代码">
+      <created>1589570193307</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1589570193307</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -86,6 +90,23 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="调整为使用print代替log" />
     <MESSAGE value="去除闪光灯相关代码" />
-    <option name="LAST_COMMIT_MESSAGE" value="去除闪光灯相关代码" />
+    <MESSAGE value="添加iOS端的二维码识别代码" />
+    <option name="LAST_COMMIT_MESSAGE" value="添加iOS端的二维码识别代码" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/example/lib/main.dart</url>
+          <line>138</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/example/lib/main.dart</url>
+          <line>20</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

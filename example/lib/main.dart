@@ -15,13 +15,23 @@ Future<void> main() async {
   runApp(MyApp());
 }
 
-// A screen that allows users to take a picture using a given camera.
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
   @override
-  MyAppState createState() => MyAppState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: CameraQRView(),
+    );
+  }
 }
 
-class MyAppState extends State<MyApp> {
+// A screen that allows users to take a picture using a given camera.
+class CameraQRView extends StatefulWidget {
+  @override
+  CameraQRViewState createState() => CameraQRViewState();
+}
+
+class CameraQRViewState extends State<CameraQRView> {
   var _controllerInited = false;
   CameraController _controller;
   Future<void> _initializeControllerFuture;
@@ -125,8 +135,7 @@ class MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(title: Text(_result)),
         body: FutureBuilder<void>(
           future: _initializeControllerFuture,
@@ -149,7 +158,6 @@ class MyAppState extends State<MyApp> {
           child: Icon(Icons.image),
           onPressed: () => _onPickupImageToScan(),
         ),
-      ),
     );
   }
 }

@@ -7,10 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import android.text.TextUtils
 import androidx.annotation.NonNull
-import com.google.zxing.BinaryBitmap
-import com.google.zxing.PlanarYUVLuminanceSource
-import com.google.zxing.RGBLuminanceSource
-import com.google.zxing.ReaderException
+import com.google.zxing.*
 import com.google.zxing.common.GlobalHistogramBinarizer
 import com.google.zxing.common.HybridBinarizer
 import com.google.zxing.multi.qrcode.QRCodeMultiReader
@@ -71,20 +68,9 @@ public class QrReaderPlugin : FlutterPlugin, MethodCallHandler {
                 Thread(Runnable {
                     // 目前只取灰度信息识别
                     val source = PlanarYUVLuminanceSource(bytesList[0], width, height, 0, 0, width, height, false)
-                    val binaryBitmap = BinaryBitmap(HybridBinarizer(source))
-                    val codeReader = getQRCodeReaderInstance()
-                    var resultText: String? = null
-                    try {
-                        val decodeResult = codeReader.decode(binaryBitmap)
-                        resultText = decodeResult.text
-                    } catch (e: ReaderException) {
-                        // do nothing
-                    } finally {
-                        // 通过以下代码让result.success在主线程运行，否则会产生RuntimeException
-                        Handler(Looper.getMainLooper()).post {
-                            result.success(resultText)
-                        }
-                        Thread.currentThread().interrupt()
+                    // 通过以下代码让result.success在主线程运行，否则会产生RuntimeException
+                    Handler(Looper.getMainLooper()).post {
+                        result.success(scanQRCode(source, width * height))
                     }
                 }).start()
             }
@@ -95,44 +81,64 @@ public class QrReaderPlugin : FlutterPlugin, MethodCallHandler {
                     return
                 }
                 BufferedInputStream(FileInputStream(filePath)).use {
-                    val sizedOptions = BitmapFactory.Options()
-                    sizedOptions.inJustDecodeBounds = true
-                    BitmapFactory.decodeStream(it, null, sizedOptions)
-                    if (sizedOptions.outWidth == null || sizedOptions.outHeight == null || sizedOptions.outWidth == 0 || sizedOptions.outHeight == 0) {
+                    val srcBitmap: Bitmap? = BitmapFactory.decodeStream(it)
+                    if (srcBitmap == null) {
                         result.success(null)
                         return
                     }
-                    BufferedInputStream(FileInputStream(filePath)).use {
-                        val options = BitmapFactory.Options()
-                        val maxLength = Math.max(sizedOptions.outWidth, sizedOptions.outHeight)
-                        if (maxLength > 1000) {
-                            options.inSampleSize = maxLength / 1000
-                        }
-                        val srcBitmap: Bitmap? = BitmapFactory.decodeStream(it, null, options)
-                        if (srcBitmap == null) {
-                            result.success(null)
-                            return
-                        }
-                        var resultString: String? = null
-
-                        val pixels = IntArray(srcBitmap.width * srcBitmap.height)
-                        srcBitmap.getPixels(pixels, 0, srcBitmap.width, 0, 0, srcBitmap.width, srcBitmap.height)
-                        val source = RGBLuminanceSource(srcBitmap.width, srcBitmap.height, pixels)
-                        val binaryBitmap = BinaryBitmap(GlobalHistogramBinarizer(source))
-                        val codeReader = getQRCodeReaderInstance()
-                        try {
-                            val decodeResult = codeReader.decode(binaryBitmap)
-                            resultString = decodeResult.text
-                        } catch (e: Exception) {
-                            // do nothing
-                        } finally {
-                            result.success(resultString)
-                        }
-                    }
+                    val pixels = IntArray(srcBitmap.width * srcBitmap.height)
+                    srcBitmap.getPixels(pixels, 0, srcBitmap.width, 0, 0, srcBitmap.width, srcBitmap.height)
+                    val source = RGBLuminanceSource(srcBitmap.width, srcBitmap.height, pixels)
+                    result.success(scanQRCode(source, pixels.size))
                 }
             }
             else -> result.notImplemented()
         }
+    }
+
+    private fun scanQRCode(source: LuminanceSource, size: Int): String? {
+        var result: String? = null
+        if (size > 1280 * 720) {
+            // 优先使用scanQRCodeByGlobalHistogramBinarizer
+            result = scanQRCodeByGlobalHistogramBinarizer(source)
+            if (result != null) {
+                return result
+            }
+            result = scanQRCodeByHybridBinarizer(source)
+        } else {
+            result = scanQRCodeByHybridBinarizer(source)
+            if (result != null) {
+                return result
+            }
+            result = scanQRCodeByGlobalHistogramBinarizer(source)
+        }
+        return result
+    }
+
+    private fun scanQRCodeByHybridBinarizer(source: LuminanceSource): String? {
+        val binaryBitmap = BinaryBitmap(HybridBinarizer(source))
+        val codeReader = getQRCodeReaderInstance()
+        var resultString: String? = null
+        try {
+            val decodeResult = codeReader.decode(binaryBitmap)
+            resultString = decodeResult.text
+        } catch (e: Exception) {
+            // do nothing
+        }
+        return resultString
+    }
+
+    private fun scanQRCodeByGlobalHistogramBinarizer(source: LuminanceSource): String? {
+        val binaryBitmap = BinaryBitmap(GlobalHistogramBinarizer(source))
+        val codeReader = getQRCodeReaderInstance()
+        var resultString: String? = null
+        try {
+            val decodeResult = codeReader.decode(binaryBitmap)
+            resultString = decodeResult.text
+        } catch (e: Exception) {
+            // do nothing
+        }
+        return resultString
     }
 
     private fun getQRCodeReaderInstance(): QRCodeMultiReader {
