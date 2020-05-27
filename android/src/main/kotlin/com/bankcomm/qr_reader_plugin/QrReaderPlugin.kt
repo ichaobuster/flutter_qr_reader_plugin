@@ -68,9 +68,10 @@ public class QrReaderPlugin : FlutterPlugin, MethodCallHandler {
                 Thread(Runnable {
                     // 目前只取灰度信息识别
                     val source = PlanarYUVLuminanceSource(bytesList[0], width, height, 0, 0, width, height, false)
+                    val scanResult = scanQRCode(source, width * height)
                     // 通过以下代码让result.success在主线程运行，否则会产生RuntimeException
                     Handler(Looper.getMainLooper()).post {
-                        result.success(scanQRCode(source, width * height))
+                        result.success(scanResult)
                     }
                 }).start()
             }
@@ -91,8 +92,9 @@ public class QrReaderPlugin : FlutterPlugin, MethodCallHandler {
                             val pixels = IntArray(srcBitmap.width * srcBitmap.height)
                             srcBitmap.getPixels(pixels, 0, srcBitmap.width, 0, 0, srcBitmap.width, srcBitmap.height)
                             val source = RGBLuminanceSource(srcBitmap.width, srcBitmap.height, pixels)
+                            val scanResult = scanQRCode(source, pixels.size)
                             Handler(Looper.getMainLooper()).post {
-                                result.success(scanQRCode(source, pixels.size))
+                                result.success(scanResult)
                             }
                         }
                     }
