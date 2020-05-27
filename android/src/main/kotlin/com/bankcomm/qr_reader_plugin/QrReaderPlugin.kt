@@ -22,7 +22,7 @@ import java.io.FileInputStream
 
 
 /** QrReaderPlugin */
-public class QrReaderPlugin : FlutterPlugin, MethodCallHandler {
+class QrReaderPlugin : FlutterPlugin, MethodCallHandler {
     /// The MethodChannel that will the communication between Flutter and native Android
     ///
     /// This local reference serves to register the plugin with the Flutter Engine and unregister it
@@ -30,9 +30,9 @@ public class QrReaderPlugin : FlutterPlugin, MethodCallHandler {
     private lateinit var channel: MethodChannel
 
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-        applicationContext = flutterPluginBinding.applicationContext;
-        channel = MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "qr_reader_plugin")
-        channel.setMethodCallHandler(this);
+        applicationContext = flutterPluginBinding.applicationContext
+        channel = MethodChannel(flutterPluginBinding.getFlutterEngine().dartExecutor, "qr_reader_plugin")
+        channel.setMethodCallHandler(this)
     }
 
     // This static function is optional and equivalent to onAttachedToEngine. It supports the old
@@ -105,7 +105,7 @@ public class QrReaderPlugin : FlutterPlugin, MethodCallHandler {
     }
 
     private fun scanQRCode(source: LuminanceSource, size: Int): String? {
-        var result: String? = null
+        var result: String?
         if (size > 1280 * 720) {
             // 优先使用scanQRCodeByGlobalHistogramBinarizer
             result = scanQRCodeByGlobalHistogramBinarizer(source)
