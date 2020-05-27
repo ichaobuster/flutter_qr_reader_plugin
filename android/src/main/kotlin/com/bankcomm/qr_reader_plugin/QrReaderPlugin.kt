@@ -80,17 +80,23 @@ public class QrReaderPlugin : FlutterPlugin, MethodCallHandler {
                     result.error("NOT_NULL", "Parameter filePath should not be null.", null)
                     return
                 }
-                BufferedInputStream(FileInputStream(filePath)).use {
-                    val srcBitmap: Bitmap? = BitmapFactory.decodeStream(it)
-                    if (srcBitmap == null) {
-                        result.success(null)
-                        return
+                Thread(Runnable {
+                    BufferedInputStream(FileInputStream(filePath)).use {
+                        val srcBitmap: Bitmap? = BitmapFactory.decodeStream(it)
+                        if (srcBitmap == null) {
+                            Handler(Looper.getMainLooper()).post {
+                                result.success(null)
+                            }
+                        }else{
+                            val pixels = IntArray(srcBitmap.width * srcBitmap.height)
+                            srcBitmap.getPixels(pixels, 0, srcBitmap.width, 0, 0, srcBitmap.width, srcBitmap.height)
+                            val source = RGBLuminanceSource(srcBitmap.width, srcBitmap.height, pixels)
+                            Handler(Looper.getMainLooper()).post {
+                                result.success(scanQRCode(source, pixels.size))
+                            }
+                        }
                     }
-                    val pixels = IntArray(srcBitmap.width * srcBitmap.height)
-                    srcBitmap.getPixels(pixels, 0, srcBitmap.width, 0, 0, srcBitmap.width, srcBitmap.height)
-                    val source = RGBLuminanceSource(srcBitmap.width, srcBitmap.height, pixels)
-                    result.success(scanQRCode(source, pixels.size))
-                }
+                }).start()
             }
             else -> result.notImplemented()
         }
