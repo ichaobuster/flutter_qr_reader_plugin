@@ -8,19 +8,27 @@ import 'package:flutter/services.dart';
 class QrReaderPlugin {
   static const MethodChannel _channel = const MethodChannel('qr_reader_plugin');
 
+  static int lastScanned = 0;
+
   /// 识别camera的ImageStream信号
   /// Android为YUV信号，iOS为RGBA信号
   static Future<String> scanByCameraStream(
       {@required List<Uint8List> bytesList,
         @required int width,
         @required int height}) async {
+    // 至少间隔100ms进行扫描，以免发生crash
+    if (DateTime.now().millisecondsSinceEpoch - lastScanned < 100) {
+      return null;
+    }
+    String result = null;
     if (Platform.isAndroid){
-      return _scanYUVImage(bytesList: bytesList, width: width, height: height);
+      result = await _scanYUVImage(bytesList: bytesList, width: width, height: height);
     }else if (Platform.isIOS){
       // iOS上仅单数组通道
-      return _scanRGBAImage(uint8list: bytesList[0], width: width, height: height);
+      result = await _scanRGBAImage(uint8list: bytesList[0], width: width, height: height);
     }
-    return 'Not supported';
+    lastScanned = DateTime.now().millisecondsSinceEpoch;
+    return result;
   }
 
   /// 识别YUV信号的图片中的QR Code
