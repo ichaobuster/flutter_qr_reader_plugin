@@ -1,3 +1,7 @@
+[toc]
+
+**!!!Documents in Chinese only!!!**
+
 # qr_reader_plugin
 
 A new Flutter plugin for reading QR Code.
@@ -12,10 +16,6 @@ Android and/or iOS.
 For help getting started with Flutter, view our 
 [online documentation](https://flutter.dev/docs), which offers tutorials, 
 samples, guidance on mobile development, and a full API reference.
-
-**!!!Documents for Chinese only!!!**
-
-[toc]
 
 ## 功能
 
