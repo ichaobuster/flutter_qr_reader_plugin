@@ -25,6 +25,8 @@ samples, guidance on mobile development, and a full API reference.
 
 调用**scanByCameraStream**可以识别`camera`插件的ImageStream信号，其中Android为YUV信号，iOS为RGBA信号。
 
+如果扫描成功，返回String类型的扫描结果；没有扫描到时，返回null。
+
 为了防止因为OOM导致crash，扫描间隔为100ms。
 
 ### 识别相册中的二维码
