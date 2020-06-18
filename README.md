@@ -13,7 +13,27 @@ For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials, 
 samples, guidance on mobile development, and a full API reference.
 
-## Example说明
+**!!!Documents for Chinese only!!!**
+
+[toc]
+
+## 功能
+
+### 扫描二维码
+
+可以配合`camera`插件使用。
+
+调用**scanByCameraStream**可以识别`camera`插件的ImageStream信号，其中Android为YUV信号，iOS为RGBA信号。
+
+为了防止因为OOM导致crash，扫描间隔为100ms。
+
+### 识别相册中的二维码
+
+可以配合`image_picker`插件使用。
+
+调用**scanByImageFile**可以扫描照片中的二维码，输入参数`filePath`为照片文件路径，可以通过`image_picker`插件获取。
+
+## example说明
 
 plugin本身不需要额外申请权限，但是例子代码中使用camera需要配合添加配置：
 

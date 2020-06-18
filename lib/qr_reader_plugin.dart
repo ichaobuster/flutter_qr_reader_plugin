@@ -20,7 +20,7 @@ class QrReaderPlugin {
     if (DateTime.now().millisecondsSinceEpoch - lastScanned < 100) {
       return null;
     }
-    String result = null;
+    String result;
     if (Platform.isAndroid){
       result = await _scanYUVImage(bytesList: bytesList, width: width, height: height);
     }else if (Platform.isIOS){
